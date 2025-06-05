@@ -60,7 +60,6 @@
                             </div>
                         </asp:Panel>
 
-                        <!-- Name -->
                         <!-- Name (required) -->
                         <div class="col-md-6">
                             <label for="txtName" class="form-label">Name</label>
@@ -98,7 +97,6 @@
                         </div>
 
                         <!-- Buttons -->
-                        <!-- Center the buttons -->
                         <div class="col-md-12 d-flex justify-content-center">
                             <asp:Button ID="btnInsert" runat="server" Text="Save New Game"
                                 OnClick="btnInsert_Click"
