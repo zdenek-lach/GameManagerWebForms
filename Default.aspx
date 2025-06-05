@@ -1,31 +1,44 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="_Default" %>
 
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" data-bs-theme="dark">
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Game Manager</title>
 
-    <!-- Bootstrap CSS (v5.3) -->
-    
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-
+    <!-- Bootstrap CSS (v5.3.6) -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous" />
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
     <style>
-      /* Optional: add a subtle background color */
-      body {
-        background-color: #f8f9fa;
-      }
-      .form-section {
-        background: #ffffff;
-        border-radius: 0.5rem;
-        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-        padding: 2rem;
-        margin-bottom: 2rem;
-      }
+        html, body {
+            transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+        }
+
+        .table-responsive {
+            min-width: 100%;
+            overflow-x: visible !important;
+        }
+
+        .table {
+            width: 100%;
+        }
+
+            .table th, .table td {
+                white-space: nowrap; /* Prevents unwanted wrapping */
+            }
     </style>
+
 </head>
 <body>
+    <div class="d-flex justify-content-end">
+        <button id="themeToggle" class="btn btn-secondary">
+            <i id="themeIcon" class="bi bi-sun"></i>
+        </button>
+    </div>
+
+
     <form id="form1" runat="server" class="container py-4">
         <div class="row justify-content-center">
             <div class="col-lg-8">
@@ -36,30 +49,32 @@
                 </div>
 
                 <!-- ====== Insert/Update Form ====== -->
-                <div class="form-section">
+                <div class="form-section mb-4 p-2 shadow-sm">
                     <div class="row g-3">
-                        <!-- Game ID (for update) -->
-                        <div class="col-md-4">
-                            <label for="txtId" class="form-label">Game ID (for Update)</label>
-                            <asp:TextBox ID="txtId" runat="server" CssClass="form-control" />
-                        </div>
+                        <!-- Game ID -->
+                        <asp:Panel ID="pnlIdForUpdate" runat="server" Visible="false">
+                            <div class="col-md-4">
+                                <label for="txtId" class="form-label">Game ID (for Update)</label>
+                                <asp:TextBox ID="txtId" runat="server" CssClass="form-control" ReadOnly="true" />
+                            </div>
+                        </asp:Panel>
 
                         <!-- Name -->
                         <div class="col-md-8">
                             <label for="txtName" class="form-label">Name</label>
-                            <asp:TextBox ID="txtName" runat="server" CssClass="form-control" />
+                            <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder=" eg. DOOM" />
                         </div>
 
                         <!-- Genre -->
                         <div class="col-md-6">
                             <label for="txtGenre" class="form-label">Genre</label>
-                            <asp:TextBox ID="txtGenre" runat="server" CssClass="form-control" />
+                            <asp:TextBox ID="txtGenre" runat="server" CssClass="form-control" placeholder=" eg. Action" />
                         </div>
 
                         <!-- Studio -->
                         <div class="col-md-6">
                             <label for="txtStudio" class="form-label">Studio</label>
-                            <asp:TextBox ID="txtStudio" runat="server" CssClass="form-control" />
+                            <asp:TextBox ID="txtStudio" runat="server" CssClass="form-control" placeholder=" eg. id Software" />
                         </div>
 
                         <!-- Release Year -->
@@ -67,7 +82,7 @@
                             <label for="txtReleaseYear" class="form-label">Release Year</label>
                             <asp:TextBox ID="txtReleaseYear" runat="server"
                                 CssClass="form-control"
-                                placeholder="e.g., 2022" />
+                                placeholder="eg. 1993" />
                         </div>
 
                         <!-- Buttons -->
@@ -84,18 +99,75 @@
 
                 <!-- ====== GridView (Games List) ====== -->
                 <div class="table-responsive">
-                    <asp:GridView ID="GridView1" runat="server"
-                        AutoGenerateColumns="True"
+                    <asp:GridView
+                        ID="GridView"
+                        runat="server"
+                        AutoGenerateColumns="False"
                         CssClass="table table-striped table-bordered align-middle"
                         HeaderStyle-CssClass="table-light"
-                        EmptyDataText="No games found.">
+                        EmptyDataText="No games found."
+                        DataKeyNames="Id"
+                        OnRowEditing="GridView_RowEditing"
+                        OnRowCancelingEdit="GridView_RowCancelingEdit"
+                        OnRowUpdating="GridView_RowUpdating"
+                        OnRowDeleting="GridView_RowDeleting">
+                        <Columns>
+                            <asp:BoundField
+                                DataField="Id"
+                                HeaderText="ID"
+                                ReadOnly="True"
+                                ItemStyle-Width="50px" />
+
+                            <asp:BoundField
+                                DataField="Name"
+                                HeaderText="Name" />
+
+                            <asp:BoundField
+                                DataField="Genre"
+                                HeaderText="Genre" />
+
+                            <asp:BoundField
+                                DataField="Studio"
+                                HeaderText="Studio" />
+
+                            <asp:BoundField
+                                DataField="ReleaseYear"
+                                HeaderText="Release Year" />
+
+                            <asp:CommandField
+                                ShowEditButton="True"
+                                ShowDeleteButton="True"
+                                EditText="Edit"
+                                UpdateText="Update"
+                                CancelText="Cancel"
+                                DeleteText="Delete" />
+                        </Columns>
                     </asp:GridView>
+
                 </div>
             </div>
         </div>
     </form>
 
     <!-- Bootstrap JS (v5.3) and dependencies -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
+<script>
+    document.getElementById("themeToggle").addEventListener("click", function () {
+        const htmlElement = document.documentElement;
+        const themeIcon = document.getElementById("themeIcon");
+        const currentTheme = htmlElement.getAttribute("data-bs-theme");
+
+        // Toggle theme
+        if (currentTheme === "light") {
+            htmlElement.setAttribute("data-bs-theme", "dark");
+            themeIcon.className = "bi bi-sun"; // Change to moon icon
+        } else {
+            htmlElement.setAttribute("data-bs-theme", "light");
+            themeIcon.className = "bi bi-moon"; // Change to sun icon
+        }
+    });
+</script>
+
+
 </html>
