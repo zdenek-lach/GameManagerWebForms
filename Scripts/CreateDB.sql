@@ -1,0 +1,11 @@
+CREATE DATABASE GameDb;
+GO
+
+USE GameDb;
+GO
+
+CREATE TABLE Games (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100),
+    Genre NVARCHAR(100)
+);
