@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="GamesPage.aspx.cs" Inherits="_Default" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" data-bs-theme="dark">
@@ -26,7 +26,7 @@
         }
 
             .table th, .table td {
-                white-space: nowrap; /* Prevents unwanted wrapping */
+                white-space: nowrap;
             }
     </style>
 
@@ -39,7 +39,7 @@
     </div>
 
 
-    <form id="form1" runat="server" class="container py-4">
+    <form id="GameForm" runat="server" class="container py-4">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <!-- ====== Form Header ====== -->
@@ -60,7 +60,7 @@
                         </asp:Panel>
 
                         <!-- Name -->
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             <label for="txtName" class="form-label">Name</label>
                             <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder=" eg. DOOM" />
                         </div>
@@ -86,14 +86,13 @@
                         </div>
 
                         <!-- Buttons -->
-                        <div class="col-md-6 d-flex align-items-end justify-content-md-end">
-                            <asp:Button ID="btnInsert" runat="server" Text="Insert"
+                        <!-- Center the buttons -->
+                        <div class="col-md-12 d-flex justify-content-center">
+                            <asp:Button ID="btnInsert" runat="server" Text="Save Game"
                                 OnClick="btnInsert_Click"
                                 CssClass="btn btn-primary me-2" />
-                            <asp:Button ID="btnUpdate" runat="server" Text="Update"
-                                OnClick="btnUpdate_Click"
-                                CssClass="btn btn-success" />
                         </div>
+
                     </div>
                 </div>
 
@@ -134,13 +133,17 @@
                                 DataField="ReleaseYear"
                                 HeaderText="Release Year" />
 
-                            <asp:CommandField
-                                ShowEditButton="True"
-                                ShowDeleteButton="True"
-                                EditText="Edit"
-                                UpdateText="Update"
-                                CancelText="Cancel"
-                                DeleteText="Delete" />
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:Button ID="btnEdit" runat="server" Text="Edit" CommandName="Edit" CssClass="btn btn-primary btn-sm" />
+                                    <asp:Button ID="btnDelete" runat="server" Text="Delete" CommandName="Delete" CssClass="btn btn-danger btn-sm" />
+                                </ItemTemplate>
+                                <EditItemTemplate>
+                                    <asp:Button ID="btnUpdate" runat="server" Text="Update" CommandName="Update" CssClass="btn btn-success btn-sm" />
+                                    <asp:Button ID="btnCancel" runat="server" Text="Cancel" CommandName="Cancel" CssClass="btn btn-secondary btn-sm" />
+                                </EditItemTemplate>
+                            </asp:TemplateField>
+
                         </Columns>
                     </asp:GridView>
 
@@ -149,7 +152,7 @@
         </div>
     </form>
 
-    <!-- Bootstrap JS (v5.3) and dependencies -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
 </body>
 <script>
@@ -158,13 +161,12 @@
         const themeIcon = document.getElementById("themeIcon");
         const currentTheme = htmlElement.getAttribute("data-bs-theme");
 
-        // Toggle theme
         if (currentTheme === "light") {
             htmlElement.setAttribute("data-bs-theme", "dark");
-            themeIcon.className = "bi bi-sun"; // Change to moon icon
+            themeIcon.className = "bi bi-sun";
         } else {
             htmlElement.setAttribute("data-bs-theme", "light");
-            themeIcon.className = "bi bi-moon"; // Change to sun icon
+            themeIcon.className = "bi bi-moon";
         }
     });
 </script>

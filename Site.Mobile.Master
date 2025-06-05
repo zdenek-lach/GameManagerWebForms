@@ -9,7 +9,7 @@
     <asp:ContentPlaceHolder runat="server" ID="HeadContent" />
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="GameForm" runat="server">
     <div>
         <h1>Mobile Master Page</h1>
         <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />

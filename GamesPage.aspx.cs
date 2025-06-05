@@ -29,7 +29,8 @@ public partial class _Default : Page
     protected void GridView_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         GridView.EditIndex = -1; // “-1” means no row is being edited
-        LoadGames();
+        //LoadGames();
+        Response.Redirect(Request.RawUrl);
     }
 
     // 3) RowUpdating: save the changes back to the DB
@@ -90,7 +91,8 @@ public partial class _Default : Page
         }
 
         // After deleting, rebind so the row disappears
-        LoadGames();
+        //LoadGames();
+        Response.Redirect(Request.RawUrl);
     }
     protected void btnInsert_Click(object sender, EventArgs e)
     {
@@ -120,6 +122,7 @@ public partial class _Default : Page
             // Now you have the ID that was just assigned if you need to display it or use it
 
             // Refresh the grid, clear form, etc.
+            Response.Redirect(Request.RawUrl);
         }
 
         ClearForm();
@@ -153,6 +156,7 @@ public partial class _Default : Page
 
             conn.Open();
             cmd.ExecuteNonQuery();
+            Response.Redirect(Request.RawUrl);
         }
 
         ClearForm();
