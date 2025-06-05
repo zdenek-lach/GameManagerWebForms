@@ -39,7 +39,8 @@
     </div>
 
 
-    <form id="GameForm" runat="server" class="container py-4">
+    <form id="GameForm" runat="server" class="container py-4 needs-validation" novalidate>
+
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <!-- ====== Form Header ====== -->
@@ -60,10 +61,21 @@
                         </asp:Panel>
 
                         <!-- Name -->
+                        <!-- Name (required) -->
                         <div class="col-md-6">
                             <label for="txtName" class="form-label">Name</label>
-                            <asp:TextBox ID="txtName" runat="server" CssClass="form-control" placeholder=" eg. DOOM" />
+                            <asp:TextBox
+                                ID="txtName"
+                                runat="server"
+                                CssClass="form-control"
+                                placeholder="eg. DOOM"
+                                required="required" />
+                            <div class="invalid-feedback">
+                                Please enter a name of your game.
+                            </div>
+
                         </div>
+
 
                         <!-- Genre -->
                         <div class="col-md-6">
@@ -90,7 +102,9 @@
                         <div class="col-md-12 d-flex justify-content-center">
                             <asp:Button ID="btnInsert" runat="server" Text="Save New Game"
                                 OnClick="btnInsert_Click"
-                                CssClass="btn btn-primary me-2" />
+                                CssClass="btn btn-primary me-2"
+                                ClientIDMode="Static" />
+
                         </div>
 
                     </div>
@@ -169,6 +183,29 @@
             themeIcon.className = "bi bi-moon";
         }
     });
+    // Bootstrap custom validation: Prevent form submission if Name is empty
+    (function () {
+        'use strict';
+        var form = document.getElementById('GameForm');
+
+        form.addEventListener('submit', function (event) {
+            // event.submitter is the <button> or <input type="submit"> that triggered this submit event.
+            // We only want to validate when the Save Game button (ID="btnInsert") was clicked.
+            var btn = event.submitter;
+            if (btn && btn.id === 'btnInsert') {
+                // Only run validation for the Insert button
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            } else {
+                // If it wasn't the Save Game button (e.g. Edit/Update/Delete in GridView),
+                // skip validation so inline edits/deletes work normally.
+            }
+        }, false);
+    })();
+
 </script>
 
 
