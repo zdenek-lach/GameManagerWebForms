@@ -88,7 +88,7 @@
                         <!-- Buttons -->
                         <!-- Center the buttons -->
                         <div class="col-md-12 d-flex justify-content-center">
-                            <asp:Button ID="btnInsert" runat="server" Text="Save Game"
+                            <asp:Button ID="btnInsert" runat="server" Text="Save New Game"
                                 OnClick="btnInsert_Click"
                                 CssClass="btn btn-primary me-2" />
                         </div>
