@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" />
     <style>
         html, body {
-            transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+            transition: background-color 0.075s ease-in-out, color 0.1s ease-out;
         }
 
         .table-responsive {
@@ -45,7 +45,7 @@
             <div class="col-lg-8">
                 <!-- ====== Form Header ====== -->
                 <div class="text-center mb-4">
-                    <h1 class="h3">🎮 Game Manager</h1>
+                    <h1 class="h3">Game Manager 🎮</h1>
                     <p class="text-muted">Insert or update your games below</p>
                 </div>
 
@@ -115,7 +115,6 @@
                         runat="server"
                         AutoGenerateColumns="False"
                         CssClass="table table-striped table-bordered align-middle"
-                        HeaderStyle-CssClass="table-light"
                         EmptyDataText="No games found."
                         DataKeyNames="Id"
                         OnRowEditing="GridView_RowEditing"
@@ -181,6 +180,7 @@
             themeIcon.className = "bi bi-moon";
         }
     });
+    
     // Bootstrap custom validation: Prevent form submission if Name is empty
     (function () {
         'use strict';
