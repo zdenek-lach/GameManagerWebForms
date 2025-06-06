@@ -129,40 +129,6 @@ public partial class _Default : Page
         LoadGames();
     }
 
-
-    //protected void btnUpdate_Click(object sender, EventArgs e)
-    //{
-    //    // Update an existing game by Id
-    //    using (SqlConnection conn = new SqlConnection(connectionString))
-    //    {
-    //        string query = @"
-    //            UPDATE Games
-    //            SET Name=@Name, Genre=@Genre, Studio=@Studio, ReleaseYear=@ReleaseYear
-    //            WHERE Id=@Id";
-    //        SqlCommand cmd = new SqlCommand(query, conn);
-
-    //        // Parse Id to int (if empty or invalid, Id=0; no row will match)
-    //        int id = 0;
-    //        Int32.TryParse(txtId.Text, out id);
-    //        cmd.Parameters.AddWithValue("@Id", id);
-
-    //        cmd.Parameters.AddWithValue("@Name", txtName.Text);
-    //        cmd.Parameters.AddWithValue("@Genre", txtGenre.Text);
-    //        cmd.Parameters.AddWithValue("@Studio", txtStudio.Text);
-
-    //        int year = 0;
-    //        Int32.TryParse(txtReleaseYear.Text, out year);
-    //        cmd.Parameters.AddWithValue("@ReleaseYear", year);
-
-    //        conn.Open();
-    //        cmd.ExecuteNonQuery();
-    //        Response.Redirect(Request.RawUrl);
-    //    }
-
-    //    ClearForm();
-    //    LoadGames();
-    //}
-
     private void LoadGames()
     {
         // Show all games in the GridView

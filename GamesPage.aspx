@@ -33,7 +33,7 @@
 </head>
 <body>
     <div class="d-flex justify-content-end">
-        <button id="themeToggle" class="btn btn-secondary">
+        <button id="themeToggle" class="btn btn-secondary m-2">
             <i id="themeIcon" class="bi bi-sun"></i>
         </button>
     </div>
