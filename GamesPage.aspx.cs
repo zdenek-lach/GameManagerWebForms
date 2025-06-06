@@ -99,11 +99,9 @@ public partial class _Default : Page
     {
         using (SqlConnection conn = new SqlConnection(connectionString))
         {
-            // Append SELECT SCOPE_IDENTITY() to get the new Id back
             string query = @"
-            INSERT INTO Games (Name, Genre, Studio, ReleaseYear)
-            VALUES (@Name, @Genre, @Studio, @ReleaseYear);
-            SELECT SCOPE_IDENTITY();";
+                            INSERT INTO Games (Name, Genre, Studio, ReleaseYear)
+                            VALUES (@Name, @Genre, @Studio, @ReleaseYear);";
 
             SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@Name", txtName.Text);
@@ -115,18 +113,11 @@ public partial class _Default : Page
             cmd.Parameters.AddWithValue("@ReleaseYear", year);
 
             conn.Open();
-            // ExecuteScalar() will return the value of SCOPE_IDENTITY()
-            object result = cmd.ExecuteScalar();
-
-            // result is a decimal (SQL numeric), so convert to int
-            int newId = Convert.ToInt32(result);
+            cmd.ExecuteNonQuery();
 
             // Refresh the grid, clear form, ..
             Response.Redirect(Request.RawUrl);
         }
-
-        ClearForm();
-        LoadGames();
     }
 
     private void LoadGames()
@@ -141,13 +132,13 @@ public partial class _Default : Page
             GridView.DataBind();
         }
     }
-
-    private void ClearForm()
-    {
-        txtId.Text = "";
-        txtName.Text = "";
-        txtGenre.Text = "";
-        txtStudio.Text = "";
-        txtReleaseYear.Text = "";
-    }
+    //Deprecated, replaced with the PRG pattern
+    //private void ClearForm()
+    //{
+    //    txtId.Text = "";
+    //    txtName.Text = "";
+    //    txtGenre.Text = "";
+    //    txtStudio.Text = "";
+    //    txtReleaseYear.Text = "";
+    //}
 }
