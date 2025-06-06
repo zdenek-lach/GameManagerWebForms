@@ -49,10 +49,10 @@
                     <p class="text-muted">Insert or update your games below</p>
                 </div>
 
-                <!-- ====== Insert/Update Form ====== -->
+                <!-- ====== Insert Form ====== -->
                 <div class="form-section mb-4 p-2 shadow-sm">
                     <div class="row g-3">
-                        <!-- Game ID -->
+                        <!-- Game ID is hidden because assignment is handled by the DB -->
                         <asp:Panel ID="pnlIdForUpdate" runat="server" Visible="false">
                             <div class="col-md-4">
                                 <label for="txtId" class="form-label">Game ID (for Update)</label>

@@ -17,7 +17,7 @@ public partial class _Default : Page
         }
     }
 
-    // 1) RowEditing: put the row in “edit mode”
+    // 1) RowEditing: put the row in "edit mode"
     protected void GridView_RowEditing(object sender, GridViewEditEventArgs e)
     {
         // Set the GridView’s EditIndex to the row being edited
@@ -28,8 +28,8 @@ public partial class _Default : Page
     // 2) RowCancelingEdit: exit edit mode without saving
     protected void GridView_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
-        GridView.EditIndex = -1; // “-1” means no row is being edited
-        //LoadGames();
+        GridView.EditIndex = -1; // "-1" means no row is being edited
+        //LoadGames(); // PRG pattern
         Response.Redirect(Request.RawUrl);
     }
 
@@ -91,6 +91,7 @@ public partial class _Default : Page
         }
 
         // After deleting, rebind so the row disappears
+        // PRG pattern
         //LoadGames();
         Response.Redirect(Request.RawUrl);
     }
@@ -119,9 +120,8 @@ public partial class _Default : Page
 
             // result is a decimal (SQL numeric), so convert to int
             int newId = Convert.ToInt32(result);
-            // Now you have the ID that was just assigned if you need to display it or use it
 
-            // Refresh the grid, clear form, etc.
+            // Refresh the grid, clear form, ..
             Response.Redirect(Request.RawUrl);
         }
 
@@ -130,38 +130,38 @@ public partial class _Default : Page
     }
 
 
-    protected void btnUpdate_Click(object sender, EventArgs e)
-    {
-        // Update an existing game by Id
-        using (SqlConnection conn = new SqlConnection(connectionString))
-        {
-            string query = @"
-                UPDATE Games
-                SET Name=@Name, Genre=@Genre, Studio=@Studio, ReleaseYear=@ReleaseYear
-                WHERE Id=@Id";
-            SqlCommand cmd = new SqlCommand(query, conn);
+    //protected void btnUpdate_Click(object sender, EventArgs e)
+    //{
+    //    // Update an existing game by Id
+    //    using (SqlConnection conn = new SqlConnection(connectionString))
+    //    {
+    //        string query = @"
+    //            UPDATE Games
+    //            SET Name=@Name, Genre=@Genre, Studio=@Studio, ReleaseYear=@ReleaseYear
+    //            WHERE Id=@Id";
+    //        SqlCommand cmd = new SqlCommand(query, conn);
 
-            // Parse Id to int (if empty or invalid, Id=0; no row will match)
-            int id = 0;
-            Int32.TryParse(txtId.Text, out id);
-            cmd.Parameters.AddWithValue("@Id", id);
+    //        // Parse Id to int (if empty or invalid, Id=0; no row will match)
+    //        int id = 0;
+    //        Int32.TryParse(txtId.Text, out id);
+    //        cmd.Parameters.AddWithValue("@Id", id);
 
-            cmd.Parameters.AddWithValue("@Name", txtName.Text);
-            cmd.Parameters.AddWithValue("@Genre", txtGenre.Text);
-            cmd.Parameters.AddWithValue("@Studio", txtStudio.Text);
+    //        cmd.Parameters.AddWithValue("@Name", txtName.Text);
+    //        cmd.Parameters.AddWithValue("@Genre", txtGenre.Text);
+    //        cmd.Parameters.AddWithValue("@Studio", txtStudio.Text);
 
-            int year = 0;
-            Int32.TryParse(txtReleaseYear.Text, out year);
-            cmd.Parameters.AddWithValue("@ReleaseYear", year);
+    //        int year = 0;
+    //        Int32.TryParse(txtReleaseYear.Text, out year);
+    //        cmd.Parameters.AddWithValue("@ReleaseYear", year);
 
-            conn.Open();
-            cmd.ExecuteNonQuery();
-            Response.Redirect(Request.RawUrl);
-        }
+    //        conn.Open();
+    //        cmd.ExecuteNonQuery();
+    //        Response.Redirect(Request.RawUrl);
+    //    }
 
-        ClearForm();
-        LoadGames();
-    }
+    //    ClearForm();
+    //    LoadGames();
+    //}
 
     private void LoadGames()
     {
